@@ -18,14 +18,16 @@ public class Rivista extends Elemento {
 	@Enumerated(EnumType.STRING)
 	private Periodicita periodicita;
 
-	public Rivista(String isbn, String titolo, int annoPubblicazione, int numeroPagine, Periodicita periodicita) {
+	public Rivista(Long isbn, String titolo, int annoPubblicazione, int numeroPagine, Periodicita periodicita) {
 		super(isbn, titolo, annoPubblicazione, numeroPagine);
 		this.periodicita = periodicita;
 	}
 
 	@Override
 	public String toString() {
-		return "Rivista [periodicita=" + periodicita + "]";
+		return "Rivista [periodicita=" + periodicita + ", getIsbn()=" + getIsbn() + ", getTitolo()=" + getTitolo()
+				+ ", getAnnoPubblicazione()=" + getAnnoPubblicazione() + ", getNumeroPagine()=" + getNumeroPagine()
+				+ "]";
 	}
 
 }

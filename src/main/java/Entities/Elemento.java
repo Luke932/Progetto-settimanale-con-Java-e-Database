@@ -3,7 +3,6 @@ package Entities;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -22,14 +21,12 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "Tipo", discriminatorType = DiscriminatorType.STRING)
 public abstract class Elemento {
 	@Id
-	@GeneratedValue
-	private long Id;
-	private String isbn;
+	private Long isbn;
 	private String titolo;
 	private int annoPubblicazione;
 	private int numeroPagine;
 
-	public Elemento(String isbn, String titolo, int annoPubblicazione, int numeroPagine) {
+	public Elemento(Long isbn, String titolo, int annoPubblicazione, int numeroPagine) {
 		super();
 		this.isbn = isbn;
 		this.titolo = titolo;

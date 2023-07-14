@@ -40,7 +40,22 @@ public class CatalogoDAO {
 		log.info("Utente salvato correttamente");
 	}
 
-	public void findByIsbnandDelete(String isbn) {
+	public void addPrestito(Prestito s) {
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+
+		// Salvataggio dell'istanza di Elemento se non è stata salvata precedentemente
+		if (!em.contains(s.getElemento())) {
+			em.persist(s.getElemento());
+		}
+
+		em.persist(s);
+
+		t.commit();
+		log.info("Prestito salvato correttamente");
+	}
+
+	public void findByIsbnAndDelete(Long isbn) {
 		Elemento found = em.find(Elemento.class, isbn);
 		if (found != null) {
 			EntityTransaction t = em.getTransaction();
@@ -56,7 +71,7 @@ public class CatalogoDAO {
 		}
 	}
 
-	public Elemento ricercaPerISBN(String isbn) {
+	public Elemento ricercaPerISBN(Long isbn) {
 		return em.find(Elemento.class, isbn);
 	}
 
