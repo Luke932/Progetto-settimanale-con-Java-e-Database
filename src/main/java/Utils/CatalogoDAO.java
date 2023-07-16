@@ -72,7 +72,13 @@ public class CatalogoDAO {
 	}
 
 	public Elemento ricercaPerISBN(Long isbn) {
-		return em.find(Elemento.class, isbn);
+		Elemento elemento = em.find(Elemento.class, isbn);
+
+		if (elemento == null) {
+			log.error("Elemento inesistente o cancellato");
+		}
+
+		return elemento;
 	}
 
 	public List<Elemento> ricercaPerAnnoPubblicazione(int anno) {
@@ -85,27 +91,49 @@ public class CatalogoDAO {
 	public List<Elemento> ricercaPerAutore(String autore) {
 		TypedQuery<Elemento> query = em.createQuery("SELECT e FROM Libro e WHERE e.autore = :autore", Elemento.class);
 		query.setParameter("autore", autore);
-		return query.getResultList();
+		List<Elemento> risultati = query.getResultList();
+
+		if (risultati.isEmpty()) {
+			log.error("Elemento non trovato");
+		}
+
+		return risultati;
 	}
 
 	public List<Elemento> ricercaPerTitolo(String titolo) {
 		TypedQuery<Elemento> query = em.createQuery("SELECT e FROM Elemento e WHERE e.titolo LIKE :titolo",
 				Elemento.class);
 		query.setParameter("titolo", "%" + titolo + "%");
-		return query.getResultList();
+		List<Elemento> risultati = query.getResultList();
+
+		if (risultati.isEmpty()) {
+			log.error("Elemento non trovato");
+		}
+
+		return risultati;
 	}
 
 	public List<Prestito> ricercaPrestitiUtente(String numeroTessera) {
 		TypedQuery<Prestito> query = em.createQuery("SELECT p FROM Prestito p WHERE p.utente.numeroTessera = :tessera",
 				Prestito.class);
 		query.setParameter("tessera", numeroTessera);
-		return query.getResultList();
+		List<Prestito> risultati = query.getResultList();
+
+		if (risultati.isEmpty()) {
+			log.error("Utente non trovato");
+		}
+		return risultati;
 	}
 
 	public List<Prestito> ricercaPrestitiScaduti() {
 		TypedQuery<Prestito> query = em.createQuery(
 				"SELECT p FROM Prestito p WHERE p.dataRestituzionePrevista < CURRENT_DATE AND p.dataRestituzioneEffettiva IS NULL",
 				Prestito.class);
-		return query.getResultList();
+		List<Prestito> risultati = query.getResultList();
+
+		if (risultati.isEmpty()) {
+			log.error("Utente non trovato");
+		}
+		return risultati;
 	}
 }
